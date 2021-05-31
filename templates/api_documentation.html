@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>SpartacusDev</title>
+        <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/webicon.png') }}" style="border-radius: 50%;">
+        <meta name="viewport" content="width=device-width">
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <style type="text/css">
+            * {
+                box-sizing: border-box;
+                background-color: #000000;
+                color: #7a7a7a;
+            }
+
+            .title {
+                padding-left: 2%;
+                overflow: auto;
+            }
+
+            .title * {
+                float: left;
+            }
+
+            .title h3 {
+                padding-left: 50%;
+                color: {{ status_color }};
+            }
+
+            .title a {
+                display: block;
+                background-color: #222222;
+                padding: 20px 20px 20px 20px;
+                text-decoration: none;
+                margin-right: 20px;
+            }
+
+            .title a:hover {
+                opacity: 75%;
+            }
+
+            .page-footer {
+                text-align: center;
+                position: fixed;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+            }
+
+            .documentation {
+                font-size: larger;
+            }
+
+            @media only screen and (max-width: 300px) {
+            }
+        </style>
+        <div class="title">
+            <a href="/">Return home</a>
+            <h2>API Documentation</h2>
+            <h3>Status: {{ status }}</h3>
+        </div>
+        <img src="https://media0.giphy.com/media/xT9IgpTy4UVnddmso0/source.gif" style="display: block; margin-left: auto; margin-right: auto;">
+        <br>
+        <li class="documentation">
+            For seeing all packages from a certain repo, use <code>/api/&#60;repo&#62;</code> with a "GET" method.
+        </li>
+        <li class="documentation">
+            For searching specific packages, use <code>api/search/&#60;package_name&#62;</code> with a "GET" method.
+        </li>
+        <br>
+        <br>
+        <p>
+            Supported repositories are:
+            {% for repo in repositories %}
+            <br>
+            <li><a href={{ repositories[repo]["url"] }}>{{ repo }}</a></li>
+            {% endfor %}
+        </p>
+        <br>
+        <footer class="page-footer">
+            <a href="mailto:dev.spartacus@gmail.com">Contact Us</a>
+            <a href="https://github.com/Spartacusboy">Github</a>
+            <a href="https://discord.gg/mZZhnRDGeg">Support Discord Server</a>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+# No need to add __pycache__
+__pycache__
+
+# I sometimes use these instead of having a test branch and I don't want to accidentally include it
+test.*
+
+# Was just checking the UI itself without the backend
+test_ui.py
+
+# Was just checking different sorting algorithms. I can technically delete it now but oh well ¯\_(ツ)_/¯
+sort.py
+
+# I don't wanna trigger anyone's p(t)sd /s
+# YES I EDITED THESE ICONS IN PHOTOSHOP YES I DON'T HAVE GOOD PHOTOSHOP SKILLS
+# 
+# 
+# except for GEIR, this was made by a guy in the bootm8 team (no not sarkaa i said bootm8 not jailm8)
+*.psd
+
+# No need for this as I modified the code. I'm leaving it in the folder "just in case"
+sources.json
