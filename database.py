@@ -18,16 +18,5 @@ class Repository(Base):
         return "<(name={0.name}, packages={0.package})>".format(self)
 
 
-class LastUpdate(Base):
-    __tablename__ = "Last Update"
-
-    title = Column(String, primary_key=True, nullable=False)
-    update_date = Column(String, nullable=False)
-
-    def __repr__(self) -> str:
-        return "<(title={0.title}, update_date={0.update_date})>".format(self)
-
-
-Base.metadata.create_all(engine)
 SessionObject = sessionmaker(bind=engine)
 db: Session = SessionObject()
