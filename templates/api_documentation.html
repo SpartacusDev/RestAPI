@@ -68,7 +68,7 @@
             Supported repositories are:
             {% for repo in repositories %}
             <br>
-            <li><a href={{ repositories[repo]["url"] }}>{{ repo }}</a></li>
+            <li><a href={{ repo["url"] }}>{{ repo["name"] }}</a></li>
             {% endfor %}
         </p>
         <br>

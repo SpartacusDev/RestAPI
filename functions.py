@@ -12,7 +12,7 @@ def get_all_repos() -> list:
     O(n) when n is the amount of repos.\n
     Get the list of all the repos in the database (the sources.json file might have repos that aren't in the database)
     """
-    return [repo.name for repo in db.query(Repository)]
+    return [repo for repo in db.query(Repository)]
 
 
 def search_packages(package_name: str) -> list:
@@ -35,6 +35,15 @@ def search_packages(package_name: str) -> list:
                     # I still specify it's rratio so I don't get irrelevant stuff at the top
                 }
                 results.append(result)
+            else:
+                pratio = partial_ratio(package_name.lower(), package["package"].lower())
+                rratio = ratio(package_name.lower(), package["package"].lower())
+                if rratio >= 75 or pratio >= 85:
+                    result = {
+                        "package": package,
+                        "ratio": rratio
+                    }
+                    results.append(result)
 
     _sort(results)  # I am not using `binary_search` with inserts because this one should be slightly faster in theory (and since this function is incredibly slow (almost 7 seconds for the website to return an answer) I want it to be as fast as it can be)
 

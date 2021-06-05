@@ -15,7 +15,7 @@ class Repository(Base):
     packages = Column(ARRAY(JSON), nullable=False)
 
     def __repr__(self) -> str:
-        return "<(name={0.name}, packages={0.package})>".format(self)
+        return "<(name={0.name}, packages={0.packages})>".format(self)
 
 
 SessionObject = sessionmaker(bind=engine)

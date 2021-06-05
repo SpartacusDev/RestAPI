@@ -1,8 +1,6 @@
-from flask import Flask, render_template, abort, request
+from flask import Flask, render_template, abort
 from functions import get_all_repos, search_packages
 from database import db, Repository
-import os
-from datetime import date
 
 app = Flask(__name__)
 app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
@@ -22,7 +20,7 @@ def api_documentaion():
     """
     Documentation page ¯\_(ツ)_/¯
     """
-    return render_template("api_documentation.html", repositories=repos)
+    return render_template("api_documentation.html", repositories=[{"name": repo.name, "url": repo.packages[0]["repo"] if len(repo.packages) > 0 else None} for repo in repos])
 
 
 @app.route("/api/search/<package_name>")
@@ -42,7 +40,7 @@ def get_repo(repo: str):
     """
     global repos
     for i in repos:
-        if i.lower() == repo.lower():
+        if i.name.lower() == repo.lower():
             break
     else:
         abort(404)
