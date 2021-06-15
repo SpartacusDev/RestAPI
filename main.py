@@ -20,7 +20,7 @@ def api_documentaion():
     """
     Documentation page ¯\_(ツ)_/¯
     """
-    return render_template("api_documentation.html", repositories=[{"name": repo.name, "url": repo.packages[0]["repo"] if len(repo.packages) > 0 else None} for repo in repos])
+    return render_template("api_documentation.html", repositories=[{"name": repo.name, "url": f"https://spartacusdev.herokuapp.com/api/{repo.name.replace(' ', '%20')}"} for repo in repos])
 
 
 @app.route("/api/search/<package_name>")
@@ -38,15 +38,12 @@ def get_repo(repo: str):
     """
     Get all packages from a certain repo
     """
-    global repos
-    for i in repos:
-        if i.name.lower() == repo.lower():
-            break
-    else:
+    repo = repo.replace("%20", " ")
+    repo = db.query(Repository).filter(Repository.name.ilike(repo)).first()
+    if repo is None:
         abort(404)
-    
     return {
-        "data": db.query(Repository).filter(Repository.name.ilike(repo.lower())).first().packages
+        "data": [package.to_dict() for package in repo.packages]
     }
 
 

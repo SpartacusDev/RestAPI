@@ -1,7 +1,7 @@
 from fuzzywuzzy.fuzz import partial_ratio, ratio
 import gc
 from typing import List
-from database import db, Repository
+from database import db, Repository, Package
 
 
 gc.enable()
@@ -12,7 +12,7 @@ def get_all_repos() -> list:
     O(n) when n is the amount of repos.\n
     Get the list of all the repos in the database (the sources.json file might have repos that aren't in the database)
     """
-    return [repo for repo in db.query(Repository)]
+    return db.query(Repository).all()
 
 
 def search_packages(package_name: str) -> list:
@@ -20,7 +20,8 @@ def search_packages(package_name: str) -> list:
     O(n*m) when n is the amount of repos and m is the amount of packages in each repo.\n
     Search for a package in the database and get a list of the most similar results.
     """
-    repos = db.query(Repository)
+    packages = db.query(Package).filter(Package.name.ilike(f"%{package_name}%"))
+    return [package.to_dict() for package in packages]
     results = []
     for repo in repos:
         for package in repo.packages:
