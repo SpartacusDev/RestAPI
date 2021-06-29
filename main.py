@@ -1,5 +1,5 @@
 from flask import Flask, render_template, abort
-from functions import get_all_repos, search_packages
+from functions import get_all_repos, search_packages, search_harder
 from database import db, Repository
 
 app = Flask(__name__)
@@ -31,6 +31,16 @@ def search(package_name: str):
     package_name = package_name.replace("%20", " ")
     return {
         "data": search_packages(package_name)
+    }
+
+@app.route("/api/search_harder/<package_name>")
+def find_more_results(package_name: str):
+    """
+    Search packages, but show more results (slower)
+    """
+    package_name = package_name.replace("%20", " ")
+    return {
+        "data": search_harder(package_name)
     }
 
 @app.route(f"/api/<repo>")

@@ -22,29 +22,30 @@ def search_packages(package_name: str) -> list:
     """
     packages = db.query(Package).filter(Package.name.ilike(f"%{package_name}%"))
     return [package.to_dict() for package in packages]
+
+def search_harder(package_name: str) -> list:
+    packages = db.query(Package)
     results = []
-    for repo in repos:
-        for package in repo.packages:
-            pratio = partial_ratio(package_name.lower(), package["name"].lower())
-            rratio = ratio(package_name.lower(), package["name"].lower())
-            package["repo name"] = repo.name
-            if rratio >= 85 or pratio >= 85:
+    for package in packages:
+        pratio = partial_ratio(package_name.lower(), package.name.lower())
+        rratio = ratio(package_name.lower(), package.name.lower())
+        if rratio >= 85 or pratio >= 85:
+            result = {
+                "package": package.to_dict(),
+                "ratio": rratio
+                # I may say that I also add whatever is "similar" (as partial_ratio checks the similarity between the most similar substring),
+                # I still specify it's rratio so I don't get irrelevant stuff at the top
+            }
+            results.append(result)
+        else:
+            pratio = partial_ratio(package_name.lower(), package.name.lower())
+            rratio = ratio(package_name.lower(), package.name.lower())
+            if rratio >= 75 or pratio >= 85:
                 result = {
-                    "package": package,
+                    "package": package.to_dict(),
                     "ratio": rratio
-                    # I may say that I also add whatever is "similar" (as partial_ratio checks the similarity between the most similar substring),
-                    # I still specify it's rratio so I don't get irrelevant stuff at the top
                 }
                 results.append(result)
-            else:
-                pratio = partial_ratio(package_name.lower(), package["package"].lower())
-                rratio = ratio(package_name.lower(), package["package"].lower())
-                if rratio >= 75 or pratio >= 85:
-                    result = {
-                        "package": package,
-                        "ratio": rratio
-                    }
-                    results.append(result)
 
     _sort(results)  # I am not using `binary_search` with inserts because this one should be slightly faster in theory (and since this function is incredibly slow (almost 7 seconds for the website to return an answer) I want it to be as fast as it can be)
 
