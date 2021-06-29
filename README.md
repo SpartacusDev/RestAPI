@@ -1,6 +1,8 @@
 # My Website
 Hosts my RestAPI for jailbreak packages and displays my work. Hosted on Heroku, [here](https://spartacusdev.herokuapp.com/).
 
+THIS IS NOT MY CYDIA REPO. IF YOU ARE LOOKING FOR THE CYDIA REPO, PLEASE REAFER TO [THIS](https://github.com/SpartacusDev/SpartacusDev.github.io/)
+
 ## Contributing
 Feel free to contribute by making a pull request
 

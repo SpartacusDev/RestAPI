@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, redirect
 from functions import get_all_repos, search_packages, search_harder
 from database import db, Repository
 
@@ -21,6 +21,17 @@ def api_documentaion():
     Documentation page ¯\_(ツ)_/¯
     """
     return render_template("api_documentation.html", repositories=[{"name": repo.name, "url": f"https://spartacusdev.herokuapp.com/api/{repo.name.replace(' ', '%20')}"} for repo in repos])
+
+
+@app.route("/<packages>")
+def wrong_website(packages: str):
+    """
+    Redirect to the Cydia repo in case somebody thought this is the repo
+    """
+    if packages.lower().startswith("packages") or packages.lower().startswith("release"):
+        packages = packages.lower().capitalize()
+        return redirect(f"https://spartacusdev.github.io/{packages}")
+    abort(404)
 
 
 @app.route("/api/search/<package_name>")
