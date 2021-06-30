@@ -23,15 +23,47 @@ def api_documentaion():
     return render_template("api_documentation.html", repositories=[{"name": repo.name, "url": f"https://spartacusdev.herokuapp.com/api/{repo.name.replace(' ', '%20')}"} for repo in repos])
 
 
-@app.route("/<packages>")
-def wrong_website(packages: str):
+@app.route("/<repo_endpoint>")
+def wrong_website(repo_endpoint: str):
     """
     Redirect to the Cydia repo in case somebody thought this is the repo
     """
-    if packages.lower().startswith("packages") or packages.lower().startswith("release"):
-        packages = packages.lower().capitalize()
-        return redirect(f"https://spartacusdev.github.io/{packages}")
+    if repo_endpoint.lower().startswith("packages") or repo_endpoint.lower().startswith("release") or \
+        repo_endpoint.lower().startswith("cydiaicon"):
+        return redirect(f"https://spartacusdev.github.io/{repo_endpoint}")
     abort(404)
+
+
+@app.route("/depictions/<depiction_endpoint>")
+def redirect_to_depictions(depiction_endpoint: str):
+    """
+    Redirect to the Cydia repo in case somebody thought this is the repo
+    """
+    return redirect(f"https://spartacusdev.github.io/depictions/{depiction_endpoint}")
+
+
+@app.route("/SileoDepictions/<depiction_endpoint>")
+def redirect_to_sileo_depictions(depiction_endpoint: str):
+    """
+    Redirect to the Cydia repo in case somebody thought this is the repo
+    """
+    return redirect(f"https://spartacusdev.github.io/SileoDepictions/{depiction_endpoint}")
+
+
+@app.route("/images/<image_endpoint>")
+def redirect_to_images(image_endpoint: str):
+    """
+    Redirect to the Cydia repo in case somebody thought this is the repo
+    """
+    return redirect(f"https://spartacusdev.github.io/images/{image_endpoint}")
+
+
+@app.route("/debs/<deb_endpoint>")
+def redirect_to_dbs(deb_endpoint: str):
+    """
+    Redirect to the Cydia repo in case somebody thought this is the repo
+    """
+    return redirect(f"https://spartacusdev.github.io/debs/{deb_endpoint}")
 
 
 @app.route("/api/search/<package_name>")
