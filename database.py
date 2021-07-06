@@ -6,7 +6,7 @@ from sqlalchemy.sql.schema import ForeignKey
 import os
 
 
-engine = create_engine(os.getenv("SECONDARY_DATABASE_URL"))
+engine = create_engine(os.getenv("DATABASE_URL"))
 Base = declarative_base()
 
 
